@@ -1,7 +1,7 @@
 # Pistos
 **"He that is faithful in that which is least is faithful also in much."** — Luke 16:10, KJV
 
-A Seventh-day Adventist household stewardship system for the Jonhera family, built on the *Beginner's Guide to Budgeting* by Rose Lee (Melrose Finance).
+A Seventh-day Adventist household stewardship system for a family, built on the *Beginner's Guide to Budgeting* by Rose Lee (Melrose Finance).
 
 ---
 
@@ -43,7 +43,7 @@ python run.py
 ### 4. First launch — register
 - Open the app and register with your email
 - The **first registered user is automatically set as Principal**
-- Register Peter first, then wife
+- Register Principal first, then other users
 
 ---
 
