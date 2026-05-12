@@ -1,0 +1,13 @@
+{
+  "name": "Pistos — Faithful Stewardship",
+  "short_name": "Pistos",
+  "description": "He that is faithful in that which is least is faithful also in much. — Luke 16:10, KJV",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1E2A3A",
+  "theme_color": "#1E2A3A",
+  "icons": [
+    { "src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

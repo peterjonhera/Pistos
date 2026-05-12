@@ -1,0 +1,59 @@
+name: Pistos CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Test ──────────────────────────────────────────────────
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-flask
+
+      - name: Create test environment
+        run: |
+          echo "FLASK_ENV=testing" >> .env
+          echo "SECRET_KEY=ci-test-secret-key-not-for-production" >> .env
+          echo "DATABASE_URL=sqlite:///test_pistos.db" >> .env
+          echo "ANTHROPIC_API_KEY=test-key" >> .env
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+  # ── Deploy (main branch only) ────────────────────────────
+  deploy:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" \
+            -H "Content-Type: application/json" \
+            --fail
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+
+      - name: Deployment summary
+        run: |
+          echo "✅ Pistos deployment triggered"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "By: ${{ github.actor }}"

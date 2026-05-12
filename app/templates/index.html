@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1E2A3A"/>
+  <title>Pistos — He that is faithful in that which is least</title>
+  <link rel="manifest" href="/static/manifest.json"/>
+  <link rel="icon" type="image/svg+xml" href="/static/icon.svg"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#E8EDF2;font-family:'DM Sans',system-ui,sans-serif;min-height:100vh}
+    #root{min-height:100vh}
+    .spinner{display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;color:#1E2A3A}
+    .spinner-ring{width:40px;height:40px;border:3px solid #E8EDF2;border-top:3px solid #F5A623;border-radius:50%;animation:spin 0.8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="spinner">
+      <div class="spinner-ring"></div>
+      <span style="font-size:13px;color:#8a96a3">Loading Pistos…</span>
+    </div>
+  </div>
+
+  <!-- React via CDN — no build step required -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script type="text/babel" src="/static/js/app.js"></script>
+
+  <!-- PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/static/sw.js')
+        .then(() => console.log('Pistos: Service worker registered'))
+        .catch(e => console.log('SW registration failed:', e));
+    }
+  </script>
+</body>
+</html>
