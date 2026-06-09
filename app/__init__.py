@@ -20,10 +20,11 @@ def create_app():
     # ── Config ──────────────────────────────────────────
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-change-me")
 
-    # DEF-005: Fix Render's postgres:// → postgresql://
-    db_url = os.getenv("DATABASE_URL", "sqlite:///pistos.db")
+    # DEF-005: Fix Render's postgres:// → postgres://
+    db_url = os.getenv("DATABASE_URL", "sqlite:////tmp/pistos.db")
     if db_url.startswith("postgres://"):
         db_url = db_url.replace("postgres://", "postgresql://", 1)
+    
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["ANTHROPIC_API_KEY"] = os.getenv("ANTHROPIC_API_KEY", "")
